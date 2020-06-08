@@ -5,7 +5,8 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        formula: []
+        formula:
+          - python@3.6
     steps:
       - uses: actions/checkout@v2
 
