@@ -1,0 +1,16 @@
+name: Homebrew
+on: [push, pull_request]
+jobs:
+  install:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        formula: []
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install ${{ matrix.formula }}
+        run: brew install Formula/${{ matrix.formula }}.rb
+
+      - name: Test ${{ matrix.formula }}
+        run: brew test Formula/${{ matrix.formula }}.rb
