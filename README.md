@@ -15,7 +15,7 @@ $ brew install python@3.5
 ```
 
 To avoid conflicts with, the formulas are installed as keg-only. Meaning
-you will have to manually add them to you `$PATH` or create appropriate
+you will have to manually add them to your `$PATH` or create appropriate
 symlinks.
 
 ## Supported Python versions
