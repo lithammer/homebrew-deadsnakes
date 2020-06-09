@@ -7,11 +7,16 @@ jobs:
       matrix:
         formula:
           - python@2.7
+          - python@3.4
           - python@3.5
           - python@3.6
           - python@3.9
     steps:
       - uses: actions/checkout@v2
+
+      - name: Install OpenSSL 1.0
+        run: brew install ./Formula/openssl@1.0.rb
+        if: matrix.formula == 'python@3.4'
 
       - name: Install ${{ matrix.formula }}
         run: brew install -s -v ./Formula/${{ matrix.formula }}.rb
