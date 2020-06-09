@@ -5,6 +5,8 @@
 This Homebrew tap provides formulas for Python versions that have been
 deprecated and removed from the main Homebrew repository.
 
+It also contains alpha/beta release of the next major Python version.
+
 ## Usage
 
 To install Python 3.5:
