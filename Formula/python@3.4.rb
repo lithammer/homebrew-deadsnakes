@@ -65,8 +65,6 @@ class PythonAT34 < Formula
       --enable-framework=#{frameworks}
       --enable-loadable-sqlite-extensions
       --without-ensurepip
-      --with-dtrace
-      --with-openssl=#{Formula["lithammer/deadsnakes/openssl@1.0"].opt_prefix}
     ]
 
     cflags   = []
