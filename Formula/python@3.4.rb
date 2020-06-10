@@ -66,7 +66,7 @@ class PythonAT34 < Formula
       --enable-loadable-sqlite-extensions
       --without-ensurepip
       --with-dtrace
-      --with-openssl=#{Formula["openssl@1.0"].opt_prefix}
+      --with-openssl=#{Formula["lithammer/deadsnakes/openssl@1.0"].opt_prefix}
     ]
 
     cflags   = []
@@ -96,7 +96,7 @@ class PythonAT34 < Formula
       s.gsub! "sqlite_setup_debug = False", "sqlite_setup_debug = True"
       s.gsub! "for d_ in inc_dirs + sqlite_inc_paths:",
               "for d_ in ['#{Formula["sqlite"].opt_include}']:"
-      s.gsub! "/usr/local/ssl", Formula["openssl@1.0"].opt_prefix
+      s.gsub! "/usr/local/ssl", Formula["lithammer/deadsnakes/openssl@1.0"].opt_prefix
     end
 
     # Allow python modules to use ctypes.find_library to find homebrew's stuff
@@ -217,9 +217,9 @@ class PythonAT34 < Formula
     end
 
     # Help distutils find brewed stuff when building extensions
-    include_dirs = [HOMEBREW_PREFIX/"include", Formula["openssl@1.0"].opt_include,
+    include_dirs = [HOMEBREW_PREFIX/"include", Formula["lithammer/deadsnakes/openssl@1.0"].opt_include,
                     Formula["sqlite"].opt_include]
-    library_dirs = [HOMEBREW_PREFIX/"lib", Formula["openssl@1.0"].opt_lib,
+    library_dirs = [HOMEBREW_PREFIX/"lib", Formula["lithammer/deadsnakes/openssl@1.0"].opt_lib,
                     Formula["sqlite"].opt_lib]
 
     cfg = prefix/"Frameworks/Python.framework/Versions/#{xy}/lib/python#{xy}/distutils/distutils.cfg"
