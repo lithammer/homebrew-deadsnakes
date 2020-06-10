@@ -1,8 +1,8 @@
 class PythonAT39 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.9.0/Python-3.9.0b1.tar.xz"
-  sha256 "fc8317dbe0fff0bbce085fa7ddc2d2fab467a378560d34e69d90fc754367b8fa"
+  url "https://www.python.org/ftp/python/3.9.0/Python-3.9.0b3.tar.xz"
+  sha256 "af1d09f8f59d1329273c2970e3156e2f9949e5cd9c408264eba3ca84213c957f"
   head "https://github.com/python/cpython.git", :branch => "3.9"
 
   # setuptools remembers the build flags python is built with and uses them to
