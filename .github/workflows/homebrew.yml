@@ -1,5 +1,5 @@
 name: Homebrew
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   install:
     runs-on: macos-latest
