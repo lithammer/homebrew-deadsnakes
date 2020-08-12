@@ -17,7 +17,7 @@ jobs:
         run: brew audit --strict --online Formula/${{ matrix.formula }}.rb
 
       - name: Install ${{ matrix.formula }}
-        run: brew install Formula/${{ matrix.formula }}.rb
+        run: brew install -v Formula/${{ matrix.formula }}.rb
 
       - name: Test ${{ matrix.formula }}
         run: brew test Formula/${{ matrix.formula }}.rb
