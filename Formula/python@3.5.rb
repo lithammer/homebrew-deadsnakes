@@ -82,6 +82,10 @@ class PythonAT35 < Formula
       # Yep, this needs the absolute path where zlib needed a path relative
       # to the SDK.
       cflags << "-I#{MacOS.sdk_path}/System/Library/Frameworks/Tk.framework/Versions/8.5/Headers"
+      # Fix the following error:
+      # /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Tk.framework/Versions/8.5/
+      # Headers/tk.h:31:3: error: Tk 8.5 must be compiled with tcl.h from Tcl 8.5
+      cflags << "-I#{MacOS.sdk_path}/System/Library/Frameworks/Tcl.framework/Versions/8.5/Headers"
     end
     # Avoid linking to libgcc https://mail.python.org/pipermail/python-dev/2012-February/116205.html
     args << "MACOSX_DEPLOYMENT_TARGET=#{MacOS.version}"
