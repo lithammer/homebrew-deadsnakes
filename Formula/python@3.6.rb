@@ -1,8 +1,8 @@
 class PythonAT36 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tar.xz"
-  sha256 "0a833c398ac8cd7c5538f7232d8531afef943c60495c504484f308dac3af40de"
+  url "https://www.python.org/ftp/python/3.6.12/Python-3.6.12.tar.xz"
+  sha256 "70953a9b5d6891d92e65d184c3512126a15814bee15e1eff2ddcce04334e9a99"
 
   # setuptools remembers the build flags python is built with and uses them to
   # build packages later. Xcode-only systems need different flags.
