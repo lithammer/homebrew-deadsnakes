@@ -3,7 +3,7 @@ class PythonAT27 < Formula
   homepage "https://www.python.org/"
   url "https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz"
   sha256 "da3080e3b488f648a3d7a4560ddee895284c3380b11d6de75edb986526b9a814"
-  revision 1
+  revision 2
 
   # setuptools remembers the build flags python is built with and uses them to
   # build packages later. Xcode-only systems need different flags.
@@ -217,7 +217,7 @@ class PythonAT27 < Formula
     end
 
     # post_install happens after link
-    %W[python#{xy}].each do |e|
+    %W[python python2 python#{xy}].each do |e|
       (HOMEBREW_PREFIX/"bin").install_symlink bin/e
     end
 
