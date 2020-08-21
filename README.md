@@ -16,9 +16,8 @@ $ brew tap lithammer/deadsnakes
 $ brew install python@3.5
 ```
 
-To avoid conflicts with, the formulas are installed as keg-only. Meaning
-you will have to manually add them to your `$PATH` or create appropriate
-symlinks.
+To avoid conflicts, only the versioned Python binary in the format `pythonX.Y`
+is symlinked to `${HOMEBREW_PREFIX:-/usr/local}/bin`.
 
 ## Supported Python versions
 
