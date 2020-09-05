@@ -1,9 +1,8 @@
 class PythonAT35 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.5.9/Python-3.5.9.tar.xz"
-  sha256 "c24a37c63a67f53bdd09c5f287b5cff8e8b98f857bf348c577d454d3f74db049"
-  revision 1
+  url "https://www.python.org/ftp/python/3.5.10/Python-3.5.10.tar.xz"
+  sha256 "0f0fa8685c1dc1f1dacb0b4e7779796b90aef99dc1fa4967a71b9da7b57d4a28"
 
   # setuptools remembers the build flags python is built with and uses them to
   # build packages later. Xcode-only systems need different flags.
@@ -35,8 +34,8 @@ class PythonAT35 < Formula
   skip_clean "bin/easy_install3", "bin/easy_install-3.5"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/38/cc/db23dbe4efc464c3c0111fedf7d46de8888f05b09488d610f6f8ab6e2544/setuptools-49.6.0.zip"
-    sha256 "46bd862894ed22c2edff033c758c2dc026324788d758e96788e8f7c11f4e9707"
+    url "https://files.pythonhosted.org/packages/7c/1b/9b68465658cda69f33c31c4dbd511ac5648835680ea8de87ce05c81f95bf/setuptools-50.3.0.zip"
+    sha256 "39060a59d91cf5cf403fa3bacbb52df4205a8c3585e0b9ba4b30e0e19d4c4b18"
   end
 
   resource "pip" do
