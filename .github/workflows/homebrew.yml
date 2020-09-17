@@ -13,11 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Audit ${{ matrix.formula }}
-        run: brew audit --strict --online Formula/${{ matrix.formula }}.rb
-
       - name: Install ${{ matrix.formula }}
-        run: brew install -v Formula/${{ matrix.formula }}.rb
+        run: brew install -s -v ./Formula/${{ matrix.formula }}.rb
 
       - name: Test ${{ matrix.formula }}
-        run: brew test Formula/${{ matrix.formula }}.rb
+        run: brew test ${{ matrix.formula }}
+
+      - name: Audit ${{ matrix.formula }}
+        run: brew audit --strict --online ${{ matrix.formula }}
