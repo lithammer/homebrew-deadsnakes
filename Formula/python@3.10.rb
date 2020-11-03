@@ -1,8 +1,8 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a1.tar.xz"
-  sha256 "db739461233fc1c0c15ccf4e35455bedcc7524a086935e11404df9c05352a960"
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a2.tar.xz"
+  sha256 "597e9ed606065ef6a49f47fb405d81981eae78054e0162c3165c58a48381857e"
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   # setuptools remembers the build flags python is built with and uses them to
