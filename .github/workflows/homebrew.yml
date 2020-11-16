@@ -2,7 +2,7 @@ name: Homebrew
 on: [pull_request]
 jobs:
   install:
-    runs-on: macos-latest
+    runs-on: macos-11.0
     strategy:
       matrix:
         formula:
@@ -12,6 +12,12 @@ jobs:
           - python@3.10
     steps:
       - uses: actions/checkout@v2
+
+      - name: Use Xcode 12.2
+        run: sudo xcode-select -s /Applications/Xcode_12.2.app
+
+      - name: Update Homebrew
+        run: brew update
 
       - name: Install ${{ matrix.formula }}
         run: brew install -s -v ./Formula/${{ matrix.formula }}.rb
