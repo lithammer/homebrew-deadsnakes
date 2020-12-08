@@ -5,6 +5,12 @@ class PythonAT27 < Formula
   sha256 "da3080e3b488f648a3d7a4560ddee895284c3380b11d6de75edb986526b9a814"
   revision 4
 
+  bottle do
+    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@2.7-2.7.18_4"
+    sha256 "21115c7dc44d5695494bc69082769cf6fdee35a7c79289c7aa7dc2bccaa48afd" => :big_sur
+    sha256 "1593346ce815b0194eda7615fa4b18688e0e183eff8fc094ff43624ce333123d" => :catalina
+  end
+
   # setuptools remembers the build flags python is built with and uses them to
   # build packages later. Xcode-only systems need different flags.
   pour_bottle? do
