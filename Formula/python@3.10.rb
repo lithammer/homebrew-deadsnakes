@@ -1,8 +1,8 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a2.tar.xz"
-  sha256 "597e9ed606065ef6a49f47fb405d81981eae78054e0162c3165c58a48381857e"
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a3.tar.xz"
+  sha256 "b098c97407713947d7ed6ed58a8486771960a7697230e3d98e0e3630277f2586"
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   # setuptools remembers the build flags python is built with and uses them to
@@ -35,18 +35,18 @@ class PythonAT310 < Formula
   skip_clean "bin/easy_install3", "bin/easy_install-3.10"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/7c/1b/9b68465658cda69f33c31c4dbd511ac5648835680ea8de87ce05c81f95bf/setuptools-50.3.0.zip"
-    sha256 "39060a59d91cf5cf403fa3bacbb52df4205a8c3585e0b9ba4b30e0e19d4c4b18"
+    url "https://files.pythonhosted.org/packages/12/e1/b9a2926a3c5a3fb055b8f85052f5baa890106a0e21b64a977c10affea751/setuptools-51.0.0.zip"
+    sha256 "029c49fd713e9230f6a41c0298e6e1f5839f2cde7104c0ad5e053a37777e7688"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/59/64/4718738ffbc22d98b5223dbd6c5bb87c476d83a4c71719402935170064c7/pip-20.2.3.tar.gz"
-    sha256 "30c70b6179711a7c4cf76da89e8a0f5282279dfb0278bec7b94134be92543b6d"
+    url "https://files.pythonhosted.org/packages/cb/5f/ae1eb8bda1cde4952bd12e468ab8a254c345a0189402bf1421457577f4f3/pip-20.3.1.tar.gz"
+    sha256 "43f7d3811f05db95809d39515a5111dd05994965d870178a4fe10d5482f9d2e2"
   end
 
   resource "wheel" do
-    url "https://files.pythonhosted.org/packages/83/72/611c121b6bd15479cb62f1a425b2e3372e121b324228df28e64cc28b01c2/wheel-0.35.1.tar.gz"
-    sha256 "99a22d87add3f634ff917310a3d87e499f19e663413a52eb9232c447aa646c9f"
+    url "https://files.pythonhosted.org/packages/d4/cf/732e05dce1e37b63d54d1836160b6e24fb36eeff2313e93315ad047c7d90/wheel-0.36.1.tar.gz"
+    sha256 "aaef9b8c36db72f8bf7f1e54f85f875c4d466819940863ca0b3f3f77f0a1646f"
   end
 
   def install
