@@ -1,4 +1,4 @@
-# homebrew-deadsnakes ![Homebrew](https://github.com/lithammer/homebrew-deadsnakes/workflows/Homebrew/badge.svg)
+# homebrew-deadsnakes
 
 This Homebrew tap provides formulas for Python versions that have been
 deprecated and removed from the main Homebrew repository.
