@@ -4,7 +4,7 @@ class PythonAT27 < Formula
   url "https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz"
   sha256 "da3080e3b488f648a3d7a4560ddee895284c3380b11d6de75edb986526b9a814"
   license "Python-2.0"
-  revision 5
+  revision 6
 
   livecheck do
     url "https://www.python.org/ftp/python/"
@@ -358,7 +358,7 @@ class PythonAT27 < Formula
           sys.path = [long_prefix.sub('#{HOMEBREW_PREFIX/"lib/python#{version.major_minor}/site-packages"}', p) for p in sys.path]
           # Set the sys.executable to use the opt_prefix. Only do this if PYTHONEXECUTABLE is not
           # explicitly set and we are not in a virtualenv:
-          if 'PYTHONEXECUTABLE' not in os.environ and sys.prefix == sys.base_prefix:
+          if 'PYTHONEXECUTABLE' not in os.environ and sys.prefix == getattr(sys, 'real_prefix', sys.prefix):
               sys.executable = '#{opt_bin}/python#{version.major_minor}'
     EOS
   end
