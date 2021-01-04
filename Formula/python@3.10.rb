@@ -1,9 +1,8 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a3.tar.xz"
-  sha256 "b098c97407713947d7ed6ed58a8486771960a7697230e3d98e0e3630277f2586"
-  revision 1
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a4.tar.xz"
+  sha256 "31c1c197b219b8e1fdea37bf8b3931babd04762ae7fa281591053fa5b7a4ef73"
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   livecheck do
@@ -66,18 +65,18 @@ class PythonAT310 < Formula
   link_overwrite "Frameworks/Python.framework/Versions/Current"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/12/e1/b9a2926a3c5a3fb055b8f85052f5baa890106a0e21b64a977c10affea751/setuptools-51.0.0.zip"
-    sha256 "029c49fd713e9230f6a41c0298e6e1f5839f2cde7104c0ad5e053a37777e7688"
+    url "https://files.pythonhosted.org/packages/94/23/e9e3d96500c063129a19feb854efbb01e6ffe7d913f1da8176692418ab8e/setuptools-51.1.1.tar.gz"
+    sha256 "0b43d1e0e0ac1467185581c2ceaf86b5c1a1bc408f8f6407687b0856302d1850"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/cb/5f/ae1eb8bda1cde4952bd12e468ab8a254c345a0189402bf1421457577f4f3/pip-20.3.1.tar.gz"
-    sha256 "43f7d3811f05db95809d39515a5111dd05994965d870178a4fe10d5482f9d2e2"
+    url "https://files.pythonhosted.org/packages/ca/1e/d91d7aae44d00cd5001957a1473e4e4b7d1d0f072d1af7c34b5899c9ccdf/pip-20.3.3.tar.gz"
+    sha256 "79c1ac8a9dccbec8752761cb5a2df833224263ca661477a2a9ed03ddf4e0e3ba"
   end
 
   resource "wheel" do
-    url "https://files.pythonhosted.org/packages/d4/cf/732e05dce1e37b63d54d1836160b6e24fb36eeff2313e93315ad047c7d90/wheel-0.36.1.tar.gz"
-    sha256 "aaef9b8c36db72f8bf7f1e54f85f875c4d466819940863ca0b3f3f77f0a1646f"
+    url "https://files.pythonhosted.org/packages/ed/46/e298a50dde405e1c202e316fa6a3015ff9288423661d7ea5e8f22f589071/wheel-0.36.2.tar.gz"
+    sha256 "e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e"
   end
 
   def lib_cellar
@@ -111,6 +110,7 @@ class PythonAT310 < Formula
       --datadir=#{share}
       --enable-loadable-sqlite-extensions
       --with-openssl=#{Formula["openssl@1.1"].opt_prefix}
+      --with-dbmliborder=gdbm:ndbm
     ]
 
     on_macos do
@@ -157,7 +157,8 @@ class PythonAT310 < Formula
     # even if homebrew is not a /usr/local/lib. Try this with:
     # `brew install enchant && pip install pyenchant`
     inreplace "./Lib/ctypes/macholib/dyld.py" do |f|
-      f.gsub! "DEFAULT_LIBRARY_FALLBACK = [", "DEFAULT_LIBRARY_FALLBACK = [ '#{HOMEBREW_PREFIX}/lib',"
+      f.gsub! "DEFAULT_LIBRARY_FALLBACK = [",
+              "DEFAULT_LIBRARY_FALLBACK = [ '#{HOMEBREW_PREFIX}/lib', '#{Formula["openssl@1.1"].opt_lib}',"
       f.gsub! "DEFAULT_FRAMEWORK_FALLBACK = [", "DEFAULT_FRAMEWORK_FALLBACK = [ '#{HOMEBREW_PREFIX}/Frameworks',"
     end
 
@@ -239,10 +240,10 @@ class PythonAT310 < Formula
     # listed in the easy_install.pth. This can break setuptools build with
     # zipimport.ZipImportError: bad local file header
     # setuptools-0.9.8-py3.3.egg
-    rm_rf Dir["#{site_packages}/setuptools*"]
-    rm_rf Dir["#{site_packages}/distribute*"]
+    rm_rf Dir["#{site_packages}/setuptools[-_.][0-9]*", "#{site_packages}/setuptools"]
+    rm_rf Dir["#{site_packages}/distribute[-_.][0-9]*", "#{site_packages}/distribute"]
     rm_rf Dir["#{site_packages}/pip[-_.][0-9]*", "#{site_packages}/pip"]
-    rm_rf Dir["#{site_packages}/wheel*"]
+    rm_rf Dir["#{site_packages}/wheel[-_.][0-9]*", "#{site_packages}/wheel"]
 
     system bin/"python3", "-m", "ensurepip"
 
@@ -390,6 +391,19 @@ class PythonAT310 < Formula
       # Reenable unconditionnaly once Apple fixes the Tcl/Tk issue
       system "#{bin}/python#{version.major_minor}", "-c", "import tkinter; root = tkinter.Tk()" if MacOS.full_version < "11.1"
     end
+
+    # Verify that the selected DBM interface works
+    (testpath/"dbm_test.py").write <<~EOS
+      import dbm
+
+      with dbm.ndbm.open("test", "c") as db:
+          db[b"foo \\xbd"] = b"bar \\xbd"
+      with dbm.ndbm.open("test", "r") as db:
+          assert list(db.keys()) == [b"foo \\xbd"]
+          assert b"foo \\xbd" in db
+          assert db[b"foo \\xbd"] == b"bar \\xbd"
+    EOS
+    system "#{bin}/python#{version.major_minor}", "dbm_test.py"
 
     system bin/"pip3", "list", "--format=columns"
   end
