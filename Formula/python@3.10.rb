@@ -3,6 +3,8 @@ class PythonAT310 < Formula
   homepage "https://www.python.org/"
   url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a4.tar.xz"
   sha256 "31c1c197b219b8e1fdea37bf8b3931babd04762ae7fa281591053fa5b7a4ef73"
+  license "Python-2.0"
+  revision 1
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   livecheck do
@@ -303,6 +305,23 @@ class PythonAT310 < Formula
     # post_install happens after link
     %W[python#{version.major_minor}].each do |e|
       (HOMEBREW_PREFIX/"bin").install_symlink bin/e
+    end
+
+    # Replace bundled setuptools/pip with our own
+    rm Dir["#{lib_cellar}/ensurepip/_bundled/{setuptools,pip}-*.whl"]
+    system bin/"pip3", "wheel", "--wheel-dir=#{lib_cellar}/ensurepip/_bundled",
+           libexec/"setuptools", libexec/"pip"
+
+    # Patch ensurepip to bootstrap our updated versions of setuptools/pip
+    setuptools_whl = Dir["#{lib_cellar}/ensurepip/_bundled/setuptools-*.whl"][0]
+    setuptools_version = Pathname(setuptools_whl).basename.to_s.split("-")[1]
+
+    pip_whl = Dir["#{lib_cellar}/ensurepip/_bundled/pip-*.whl"][0]
+    pip_version = Pathname(pip_whl).basename.to_s.split("-")[1]
+
+    inreplace lib_cellar/"ensurepip/__init__.py" do |s|
+      s.gsub! /_SETUPTOOLS_VERSION = .*/, "_SETUPTOOLS_VERSION = \"#{setuptools_version}\""
+      s.gsub! /_PIP_VERSION = .*/, "_PIP_VERSION = \"#{pip_version}\""
     end
 
     # Help distutils find brewed stuff when building extensions

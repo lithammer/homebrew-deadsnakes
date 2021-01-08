@@ -4,7 +4,7 @@ class PythonAT27 < Formula
   url "https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz"
   sha256 "da3080e3b488f648a3d7a4560ddee895284c3380b11d6de75edb986526b9a814"
   license "Python-2.0"
-  revision 6
+  revision 7
 
   livecheck do
     url "https://www.python.org/ftp/python/"
@@ -107,6 +107,7 @@ class PythonAT27 < Formula
       --enable-ipv6
       --datarootdir=#{share}
       --datadir=#{share}
+      --with-dbmliborder=gdbm:ndbm
     ]
 
     on_macos do
@@ -160,7 +161,8 @@ class PythonAT27 < Formula
     # even if homebrew is not a /usr/local/lib. Try this with:
     # `brew install enchant && pip install pyenchant`
     inreplace "./Lib/ctypes/macholib/dyld.py" do |f|
-      f.gsub! "DEFAULT_LIBRARY_FALLBACK = [", "DEFAULT_LIBRARY_FALLBACK = [ '#{HOMEBREW_PREFIX}/lib',"
+      f.gsub! "DEFAULT_LIBRARY_FALLBACK = [",
+              "DEFAULT_LIBRARY_FALLBACK = [ '#{HOMEBREW_PREFIX}/lib', '#{Formula["openssl@1.1"].opt_lib}',"
       f.gsub! "DEFAULT_FRAMEWORK_FALLBACK = [", "DEFAULT_FRAMEWORK_FALLBACK = [ '#{HOMEBREW_PREFIX}/Frameworks',"
     end
 
@@ -245,10 +247,10 @@ class PythonAT27 < Formula
     # listed in the easy_install.pth. This can break setuptools build with
     # zipimport.ZipImportError: bad local file header
     # setuptools-0.9.8-py3.3.egg
-    rm_rf Dir["#{site_packages}/setuptools*"]
-    rm_rf Dir["#{site_packages}/distribute*"]
+    rm_rf Dir["#{site_packages}/setuptools[-_.][0-9]*", "#{site_packages}/setuptools"]
+    rm_rf Dir["#{site_packages}/distribute[-_.][0-9]*", "#{site_packages}/distribute"]
     rm_rf Dir["#{site_packages}/pip[-_.][0-9]*", "#{site_packages}/pip"]
-    rm_rf Dir["#{site_packages}/wheel*"]
+    rm_rf Dir["#{site_packages}/wheel[-_.][0-9]*", "#{site_packages}/wheel"]
 
     system bin/"python2", "-m", "ensurepip"
 
@@ -308,6 +310,23 @@ class PythonAT27 < Formula
     # post_install happens after link
     %W[python python2 python#{version.major_minor}].each do |e|
       (HOMEBREW_PREFIX/"bin").install_symlink bin/e
+    end
+
+    # Replace bundled setuptools/pip with our own
+    rm Dir["#{lib_cellar}/ensurepip/_bundled/{setuptools,pip}-*.whl"]
+    system bin/"pip2", "wheel", "--wheel-dir=#{lib_cellar}/ensurepip/_bundled",
+           libexec/"setuptools", libexec/"pip"
+
+    # Patch ensurepip to bootstrap our updated versions of setuptools/pip
+    setuptools_whl = Dir["#{lib_cellar}/ensurepip/_bundled/setuptools-*.whl"][0]
+    setuptools_version = Pathname(setuptools_whl).basename.to_s.split("-")[1]
+
+    pip_whl = Dir["#{lib_cellar}/ensurepip/_bundled/pip-*.whl"][0]
+    pip_version = Pathname(pip_whl).basename.to_s.split("-")[1]
+
+    inreplace lib_cellar/"ensurepip/__init__.py" do |s|
+      s.gsub! /_SETUPTOOLS_VERSION = .*/, "_SETUPTOOLS_VERSION = \"#{setuptools_version}\""
+      s.gsub! /_PIP_VERSION = .*/, "_PIP_VERSION = \"#{pip_version}\""
     end
 
     # Help distutils find brewed stuff when building extensions
@@ -396,6 +415,20 @@ class PythonAT27 < Formula
       # Reenable unconditionnaly once Apple fixes the Tcl/Tk issue
       system "#{bin}/python#{version.major_minor}", "-c", "import Tkinter; root = Tkinter.Tk()" if MacOS.full_version < "11.1"
     end
+
+    # Verify that the selected DBM interface works
+    (testpath/"dbm_test.py").write <<~EOS
+      from contextlib import closing
+      import dbm
+
+      with closing(dbm.open("test", "c")) as db:
+          db[b"foo \\xbd"] = b"bar \\xbd"
+      with closing(dbm.open("test", "r")) as db:
+          assert list(db.keys()) == [b"foo \\xbd"]
+          assert b"foo \\xbd" in db
+          assert db[b"foo \\xbd"] == b"bar \\xbd"
+    EOS
+    system "#{bin}/python#{version.major_minor}", "dbm_test.py"
 
     system bin/"pip2", "list", "--format=columns"
   end
