@@ -331,6 +331,7 @@ class PythonAT310 < Formula
     inreplace lib_cellar/"ensurepip/__init__.py" do |s|
       s.gsub! /_SETUPTOOLS_VERSION = .*/, "_SETUPTOOLS_VERSION = \"#{setuptools_version}\""
       s.gsub! /_PIP_VERSION = .*/, "_PIP_VERSION = \"#{pip_version}\""
+      s.gsub! "    (\"pip\", _PIP_VERSION, \"py2.py3\"),", "    (\"pip\", _PIP_VERSION, \"py3\")," # pip21 is py3 only
     end
 
     # Help distutils find brewed stuff when building extensions
