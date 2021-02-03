@@ -1,10 +1,9 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a4.tar.xz"
-  sha256 "31c1c197b219b8e1fdea37bf8b3931babd04762ae7fa281591053fa5b7a4ef73"
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a5.tar.xz"
+  sha256 "0418e57e7036e219f1e6b6303b21e711f64cfd0fddb0894d8f19f37afffc5d4d"
   license "Python-2.0"
-  revision 3
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   livecheck do
@@ -304,9 +303,8 @@ class PythonAT310 < Formula
 
     # Install unversioned symlinks in libexec/bin.
     {
-      "easy_install" => "easy_install-#{version.major_minor}",
-      "pip"          => "pip3",
-      "wheel"        => "wheel3",
+      "pip"   => "pip3",
+      "wheel" => "wheel3",
     }.each do |unversioned_name, versioned_name|
       (libexec/"bin").install_symlink (bin/versioned_name).realpath => unversioned_name
     end
@@ -331,7 +329,6 @@ class PythonAT310 < Formula
     inreplace lib_cellar/"ensurepip/__init__.py" do |s|
       s.gsub! /_SETUPTOOLS_VERSION = .*/, "_SETUPTOOLS_VERSION = \"#{setuptools_version}\""
       s.gsub! /_PIP_VERSION = .*/, "_PIP_VERSION = \"#{pip_version}\""
-      s.gsub! "    (\"pip\", _PIP_VERSION, \"py2.py3\"),", "    (\"pip\", _PIP_VERSION, \"py3\")," # pip21 is py3 only
     end
 
     # Help distutils find brewed stuff when building extensions
