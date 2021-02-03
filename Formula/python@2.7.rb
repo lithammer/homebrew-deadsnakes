@@ -4,7 +4,7 @@ class PythonAT27 < Formula
   url "https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz"
   sha256 "da3080e3b488f648a3d7a4560ddee895284c3380b11d6de75edb986526b9a814"
   license "Python-2.0"
-  revision 8
+  revision 9
 
   livecheck do
     url "https://www.python.org/ftp/python/"
@@ -70,13 +70,13 @@ class PythonAT27 < Formula
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/cb/5f/ae1eb8bda1cde4952bd12e468ab8a254c345a0189402bf1421457577f4f3/pip-20.3.1.tar.gz"
-    sha256 "43f7d3811f05db95809d39515a5111dd05994965d870178a4fe10d5482f9d2e2"
+    url "https://files.pythonhosted.org/packages/53/7f/55721ad0501a9076dbc354cc8c63ffc2d6f1ef360f49ad0fbcce19d68538/pip-20.3.4.tar.gz"
+    sha256 "6773934e5f5fc3eaa8c5a44949b5b924fc122daa0a8aa9f80c835b4ca2a543fc"
   end
 
   resource "wheel" do
-    url "https://files.pythonhosted.org/packages/d4/cf/732e05dce1e37b63d54d1836160b6e24fb36eeff2313e93315ad047c7d90/wheel-0.36.1.tar.gz"
-    sha256 "aaef9b8c36db72f8bf7f1e54f85f875c4d466819940863ca0b3f3f77f0a1646f"
+    url "https://files.pythonhosted.org/packages/ed/46/e298a50dde405e1c202e316fa6a3015ff9288423661d7ea5e8f22f589071/wheel-0.36.2.tar.gz"
+    sha256 "e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e"
   end
 
   def lib_cellar
@@ -121,14 +121,21 @@ class PythonAT27 < Formula
       args << "--with-system-ffi"
     end
 
-    cflags   = ["-I#{HOMEBREW_PREFIX}/include"]
-    ldflags  = ["-L#{HOMEBREW_PREFIX}/lib"]
-    cppflags = ["-I#{HOMEBREW_PREFIX}/include"]
+    # Python re-uses flags when building native modules.
+    # Since we don't want native modules prioritizing the brew
+    # include path, we move them to [C|LD]FLAGS_NODIST.
+    # Note: Changing CPPFLAGS causes issues with dbm, so we
+    # leave it as-is.
+    cflags         = []
+    cflags_nodist  = ["-I#{HOMEBREW_PREFIX}/include"]
+    ldflags        = []
+    ldflags_nodist = ["-L#{HOMEBREW_PREFIX}/lib"]
+    cppflags       = ["-I#{HOMEBREW_PREFIX}/include"]
 
     if MacOS.sdk_path_if_needed
       # Help Python's build system (setuptools/pip) to build things on SDK-based systems
       # The setup.py looks at "-isysroot" to get the sysroot (and not at --sysroot)
-      cflags  << "-isysroot #{MacOS.sdk_path}" << "-I#{MacOS.sdk_path}/usr/include"
+      cflags  << "-isysroot #{MacOS.sdk_path}"
       ldflags << "-isysroot #{MacOS.sdk_path}"
     end
     # Avoid linking to libgcc https://mail.python.org/pipermail/python-dev/2012-February/116205.html
@@ -163,7 +170,9 @@ class PythonAT27 < Formula
     end
 
     args << "CFLAGS=#{cflags.join(" ")}" unless cflags.empty?
+    args << "CFLAGS_NODIST=#{cflags_nodist.join(" ")}" unless cflags_nodist.empty?
     args << "LDFLAGS=#{ldflags.join(" ")}" unless ldflags.empty?
+    args << "LDFLAGS_NODIST=#{ldflags_nodist.join(" ")}" unless ldflags_nodist.empty?
     args << "CPPFLAGS=#{cppflags.join(" ")}" unless cppflags.empty?
 
     system "./configure", *args
