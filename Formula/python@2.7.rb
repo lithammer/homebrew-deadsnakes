@@ -4,7 +4,7 @@ class PythonAT27 < Formula
   url "https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz"
   sha256 "da3080e3b488f648a3d7a4560ddee895284c3380b11d6de75edb986526b9a814"
   license "Python-2.0"
-  revision 9
+  revision 10
 
   livecheck do
     url "https://www.python.org/ftp/python/"
@@ -103,16 +103,27 @@ class PythonAT27 < Formula
     ENV["PYTHONHOME"] = nil
     ENV["PYTHONPATH"] = nil
 
+    # The --enable-optimization and --with-lto flags diverge from what upstream
+    # python does for their macOS binary releases. They have chosen not to apply
+    # these flags because they want one build that will work across many macOS
+    # releases. Homebrew is not so constrained because the bottling
+    # infrastructure specializes for each macOS major release.
     args = %W[
       --prefix=#{prefix}
       --enable-ipv6
       --datarootdir=#{share}
       --datadir=#{share}
       --with-dbmliborder=gdbm:ndbm
+      --enable-optimizations
+      --with-lto
     ]
 
     on_macos do
       args << "--enable-framework=#{frameworks}"
+
+      # Override LLVM_AR to be plain old system ar.
+      # https://bugs.python.org/issue43109
+      args << "LLVM_AR=/usr/bin/ar"
     end
     on_linux do
       args << "--enable-shared"
