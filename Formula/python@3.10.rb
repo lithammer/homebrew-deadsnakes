@@ -4,6 +4,7 @@ class PythonAT310 < Formula
   url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a5.tar.xz"
   sha256 "0418e57e7036e219f1e6b6303b21e711f64cfd0fddb0894d8f19f37afffc5d4d"
   license "Python-2.0"
+  revision 1
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   livecheck do
@@ -105,6 +106,11 @@ class PythonAT310 < Formula
     ENV["PYTHONHOME"] = nil
     ENV["PYTHONPATH"] = nil
 
+    # The --enable-optimization and --with-lto flags diverge from what upstream
+    # python does for their macOS binary releases. They have chosen not to apply
+    # these flags because they want one build that will work across many macOS
+    # releases. Homebrew is not so constrained because the bottling
+    # infrastructure specializes for each macOS major release.
     args = %W[
       --prefix=#{prefix}
       --enable-ipv6
@@ -113,11 +119,17 @@ class PythonAT310 < Formula
       --enable-loadable-sqlite-extensions
       --with-openssl=#{Formula["openssl@1.1"].opt_prefix}
       --with-dbmliborder=gdbm:ndbm
+      --enable-optimizations
+      --with-lto
     ]
 
     on_macos do
       args << "--enable-framework=#{frameworks}"
       args << "--with-dtrace"
+
+      # Override LLVM_AR to be plain old system ar.
+      # https://bugs.python.org/issue43109
+      args << "LLVM_AR=/usr/bin/ar"
     end
     on_linux do
       args << "--enable-shared"
