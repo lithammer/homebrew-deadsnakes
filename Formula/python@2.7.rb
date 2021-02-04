@@ -13,7 +13,7 @@ class PythonAT27 < Formula
 
   bottle do
     root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@2.7-2.7.18_9"
-    sha256 big_sur: "1517e4c35ccb02dc4c2c627cc825c3c15c40e0b3bcb386c989abbeab34f7fc2f"
+    sha256 big_sur:  "1517e4c35ccb02dc4c2c627cc825c3c15c40e0b3bcb386c989abbeab34f7fc2f"
     sha256 catalina: "5560f54580803cd63c96d1b7ea31482d1a8d9e077d09c50356915d43555b9730"
   end
 

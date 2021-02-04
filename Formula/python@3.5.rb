@@ -7,8 +7,8 @@ class PythonAT35 < Formula
 
   bottle do
     root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@3.5-3.5.10_1"
-    sha256 "8546d4fadbb98312636a978a5bdf2b8f610d444aa98e1396f1b90a4fb7863ebf" => :big_sur
-    sha256 "54f4eb6850405aba5eb1536623605ba7f0add7c7ac5c944c4adfdb82f873fccc" => :catalina
+    sha256 big_sur:  "8546d4fadbb98312636a978a5bdf2b8f610d444aa98e1396f1b90a4fb7863ebf"
+    sha256 catalina: "54f4eb6850405aba5eb1536623605ba7f0add7c7ac5c944c4adfdb82f873fccc"
   end
 
   # setuptools remembers the build flags python is built with and uses them to

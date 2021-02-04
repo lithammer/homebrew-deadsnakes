@@ -13,7 +13,7 @@ class PythonAT36 < Formula
 
   bottle do
     root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@3.6-3.6.12_7"
-    sha256 big_sur: "1baa40d982f278a8ae10b1bb70551d8d4ceab473e7e34cfcfacf6156695b9024"
+    sha256 big_sur:  "1baa40d982f278a8ae10b1bb70551d8d4ceab473e7e34cfcfacf6156695b9024"
     sha256 catalina: "9372c1d6f1c2a30c8f5e7585ac088ea1a0c184ac0d046480dbf997f0a838c0b7"
   end
 
