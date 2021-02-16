@@ -21,7 +21,7 @@ is symlinked to `${HOMEBREW_PREFIX:-/usr/local}/bin`.
 
 - 2.7 (2.7.18)
 - 3.5 (3.5.10)
-- 3.6 (3.6.12)
+- 3.6 (3.6.13)
 - 3.10 (3.10.0a5)
 
 ## License
