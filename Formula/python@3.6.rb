@@ -4,6 +4,7 @@ class PythonAT36 < Formula
   url "https://www.python.org/ftp/python/3.6.13/Python-3.6.13.tar.xz"
   sha256 "a47a43a53abb42286a2c11965343ff56711b9e64e8d11bf2c6701a4fb8ce1a0f"
   license "Python-2.0"
+  revision 1
 
   livecheck do
     url "https://www.python.org/ftp/python/"
@@ -33,6 +34,7 @@ class PythonAT36 < Formula
 
   depends_on "pkg-config" => :build
   depends_on "gdbm"
+  depends_on "mpdecimal"
   depends_on "openssl@1.1"
   depends_on "readline"
   depends_on "sqlite"
@@ -78,6 +80,12 @@ class PythonAT36 < Formula
     sha256 "e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e"
   end
 
+  # Link against libmpdec.so.3, update for mpdecimal.h symbol cleanup.
+  patch do
+    url "https://www.bytereef.org/contrib/decimal-3.7.diff"
+    sha256 "aa9a3002420079a7d2c6033d80b49038d490984a9ddb3d1195bb48ca7fb4a1f0"
+  end
+
   def lib_cellar
     on_macos do
       return prefix/"Frameworks/Python.framework/Versions/#{version.major_minor}/lib/python#{version.major_minor}"
@@ -102,6 +110,11 @@ class PythonAT36 < Formula
     ENV["PYTHONHOME"] = nil
     ENV["PYTHONPATH"] = nil
 
+    # Override the auto-detection in setup.py, which assumes a universal build.
+    on_macos do
+      ENV["PYTHON_DECIMAL_WITH_MACHINE"] = "x64"
+    end
+
     # The --enable-optimization and --with-lto flags diverge from what upstream
     # python does for their macOS binary releases. They have chosen not to apply
     # these flags because they want one build that will work across many macOS
@@ -117,6 +130,7 @@ class PythonAT36 < Formula
       --with-dbmliborder=gdbm:ndbm
       --enable-optimizations
       --with-lto
+      --with-system-libmpdec
     ]
 
     on_macos do
@@ -429,6 +443,7 @@ class PythonAT36 < Formula
 
     # Check if some other modules import. Then the linked libs are working.
     system "#{bin}/python#{version.major_minor}", "-c", "import _gdbm"
+    system "#{bin}/python#{version.major_minor}", "-c", "import _decimal"
     system "#{bin}/python#{version.major_minor}", "-c", "import hashlib"
     system "#{bin}/python#{version.major_minor}", "-c", "import ssl"
     system "#{bin}/python#{version.major_minor}", "-c", "import zlib"
