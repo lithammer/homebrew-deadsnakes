@@ -4,7 +4,7 @@ class PythonAT310 < Formula
   url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a5.tar.xz"
   sha256 "0418e57e7036e219f1e6b6303b21e711f64cfd0fddb0894d8f19f37afffc5d4d"
   license "Python-2.0"
-  revision 1
+  revision 2
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   livecheck do
@@ -35,6 +35,7 @@ class PythonAT310 < Formula
 
   depends_on "pkg-config" => :build
   depends_on "gdbm"
+  depends_on "mpdecimal"
   depends_on "openssl@1.1"
   depends_on "readline"
   depends_on "sqlite"
@@ -82,6 +83,12 @@ class PythonAT310 < Formula
     sha256 "e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e"
   end
 
+  # Link against libmpdec.so.3, update for mpdecimal.h symbol cleanup.
+  patch do
+    url "https://www.bytereef.org/contrib/decimal.diff"
+    sha256 "b0716ba88a4061dcc8c9bdd1acc57f62884000d1f959075090bf2c05ffa28bf3"
+  end
+
   def lib_cellar
     on_macos do
       return prefix/"Frameworks/Python.framework/Versions/#{version.major_minor}/lib/python#{version.major_minor}"
@@ -106,6 +113,11 @@ class PythonAT310 < Formula
     ENV["PYTHONHOME"] = nil
     ENV["PYTHONPATH"] = nil
 
+    # Override the auto-detection in setup.py, which assumes a universal build.
+    on_macos do
+      ENV["PYTHON_DECIMAL_WITH_MACHINE"] = Hardware::CPU.arm? ? "uint128" : "x64"
+    end
+
     # The --enable-optimization and --with-lto flags diverge from what upstream
     # python does for their macOS binary releases. They have chosen not to apply
     # these flags because they want one build that will work across many macOS
@@ -121,6 +133,7 @@ class PythonAT310 < Formula
       --with-dbmliborder=gdbm:ndbm
       --enable-optimizations
       --with-lto
+      --with-system-libmpdec
     ]
 
     on_macos do
@@ -424,6 +437,7 @@ class PythonAT310 < Formula
 
     # Check if some other modules import. Then the linked libs are working.
     system "#{bin}/python#{version.major_minor}", "-c", "import _gdbm"
+    system "#{bin}/python#{version.major_minor}", "-c", "import _decimal"
     system "#{bin}/python#{version.major_minor}", "-c", "import hashlib"
     system "#{bin}/python#{version.major_minor}", "-c", "import ssl"
     system "#{bin}/python#{version.major_minor}", "-c", "import zlib"
