@@ -1,10 +1,9 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a5.tar.xz"
-  sha256 "0418e57e7036e219f1e6b6303b21e711f64cfd0fddb0894d8f19f37afffc5d4d"
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a6.tgz"
+  sha256 "81ba70f5ab95358f20886da85288af4117b45eadbe62590ce9a5bbb015f0faf1"
   license "Python-2.0"
-  revision 2
   head "https://github.com/python/cpython.git", branch: "3.10"
 
   livecheck do
@@ -177,7 +176,7 @@ class PythonAT310 < Formula
     # We want our readline! This is just to outsmart the detection code,
     # superenv makes cc always find includes/libs!
     inreplace "setup.py",
-      "do_readline = self.compiler.find_library_file(self.lib_dirs, 'readline')",
+      "do_readline = self.compiler.find_library_file(self.lib_dirs,\n                readline_lib)",
       "do_readline = '#{Formula["readline"].opt_lib}/libhistory.dylib'"
 
     inreplace "setup.py" do |s|
