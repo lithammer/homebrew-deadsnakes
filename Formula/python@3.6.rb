@@ -12,9 +12,9 @@ class PythonAT36 < Formula
   end
 
   bottle do
-    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@3.6-3.6.13"
-    sha256 big_sur:  "f7bb0ad757f857179a65e1107674acc8509994da4335b6173a4ec5aac8e4ba54"
-    sha256 catalina: "0acd9bb842303aeac2865d8b9960c1d832d7a70c9a8e189dacda5f1acbc3ad4e"
+    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@3.6-3.6.13_1"
+    sha256 big_sur:  "b410712a571ce950a53c08dab55b348f41daaaa8355a6fddf7b61a3d3c8922b3"
+    sha256 catalina: "0e4bd551e9af2baf29b6f6a941c1e77e7efdc3c491e388423e8b80b8b7201e98"
   end
 
   # setuptools remembers the build flags python is built with and uses them to
