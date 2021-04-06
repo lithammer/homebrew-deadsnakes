@@ -1,8 +1,8 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a6.tgz"
-  sha256 "81ba70f5ab95358f20886da85288af4117b45eadbe62590ce9a5bbb015f0faf1"
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0a7.tgz"
+  sha256 "8a13ee8033d32085e743e965f72e5ba631c82c8ad4d75d5ff68731a74c5c742b"
   license "Python-2.0"
   head "https://github.com/python/cpython.git", branch: "3.10"
 
@@ -68,8 +68,8 @@ class PythonAT310 < Formula
   link_overwrite "Frameworks/Python.framework/Versions/Current"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/12/68/95515eaff788370246dac534830ea9ccb0758e921ac9e9041996026ecaf2/setuptools-53.0.0.tar.gz"
-    sha256 "1b18ef17d74ba97ac9c0e4b4265f123f07a8ae85d9cd093949fa056d3eeeead5"
+    url "https://files.pythonhosted.org/packages/94/75/05e1d69c61c4dfaf65ad12785cd18bedc1e0129976c55914d6aea59c7da8/setuptools-54.2.0.tar.gz"
+    sha256 "aa9c24fb83a9116b8d425e53bec24c7bfdbffc313c2159f9ed036d4a6dd32d7d"
   end
 
   resource "pip" do
@@ -80,12 +80,6 @@ class PythonAT310 < Formula
   resource "wheel" do
     url "https://files.pythonhosted.org/packages/ed/46/e298a50dde405e1c202e316fa6a3015ff9288423661d7ea5e8f22f589071/wheel-0.36.2.tar.gz"
     sha256 "e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e"
-  end
-
-  # Link against libmpdec.so.3, update for mpdecimal.h symbol cleanup.
-  patch do
-    url "https://www.bytereef.org/contrib/decimal.diff"
-    sha256 "b0716ba88a4061dcc8c9bdd1acc57f62884000d1f959075090bf2c05ffa28bf3"
   end
 
   def lib_cellar
