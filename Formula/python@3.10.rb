@@ -1,8 +1,8 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0b1.tgz"
-  sha256 "a44c4726948689fe22f3edf30f11bf361d4536b38738ca955747eb5860c2dc93"
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0b2.tgz"
+  sha256 "ac678e44e522c0b769398f64fccda917f24a97d310e492d98989377f8865bac1"
   license "Python-2.0"
   head "https://github.com/python/cpython.git", branch: "3.10"
 
@@ -68,13 +68,13 @@ class PythonAT310 < Formula
   link_overwrite "Frameworks/Python.framework/Versions/Current"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/f6/e9/19af16328705915233299f6f1f02db95899fb00c75ac9da4757aa1e5d1de/setuptools-56.0.0.tar.gz"
-    sha256 "08a1c0f99455307c48690f00d5c2ac2c1ccfab04df00454fef854ec145b81302"
+    url "https://files.pythonhosted.org/packages/88/fc/d17731c0cc67a5a8e385e4f47c3b0b186720e198b70f076ccb4676804a8f/setuptools-57.0.0.tar.gz"
+    sha256 "401cbf33a7bf817d08014d51560fc003b895c4cdc1a5b521ad2969e928a07535"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/94/b0/e10bdc8809c81796c80aa3644a8e3dc16594fb1bd68f5996929f26cad980/pip-21.1.1.tar.gz"
-    sha256 "51ad01ddcd8de923533b01a870e7b987c2eb4d83b50b89e1bf102723ff9fed8b"
+    url "https://files.pythonhosted.org/packages/b1/44/6e26d5296b83c6aac166e48470d57a00d3ed1f642e89adc4a4e412a01643/pip-21.1.2.tar.gz"
+    sha256 "eb5df6b9ab0af50fe1098a52fd439b04730b6e066887ff7497357b9ebd19f79b"
   end
 
   resource "wheel" do
