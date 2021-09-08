@@ -1,8 +1,8 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0rc1.tgz"
-  sha256 "4da5269494325da3872531c5178110a91c1eaf7cfe25523ac7a6f26ff7b7ac4d"
+  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0rc2.tgz"
+  sha256 "0f8bf53dbe6f85785d502e73984aa3f12f67ac4958d9b8d8012019c35c646fe2"
   license "Python-2.0"
   head "https://github.com/python/cpython.git", branch: "3.10"
 
@@ -68,18 +68,18 @@ class PythonAT310 < Formula
   link_overwrite "Frameworks/Python.framework/Versions/Current"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/db/e2/c0ced9ccffb61432305665c22842ea120c0f649eec47ecf2a45c596707c4/setuptools-57.4.0.tar.gz"
-    sha256 "6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465"
+    url "https://files.pythonhosted.org/packages/11/c6/9e16df5a5526f7dd2ad17284928e36fc341305fe74c7ab06bb5960a5da94/setuptools-58.0.2.tar.gz"
+    sha256 "19e48d0270a86c996bf09e5282584d3c0adf407f37f0aa6e3c762a349ff41811"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/f7/ce/e359cf283c0c0f2e0af7df8f16c8d79047aa1887a00a5b39b27d8afc49e2/pip-21.2.1.tar.gz"
-    sha256 "303a82aaa24cdc01f7ebbd1afc7d1b871a4aa0a88bb5bedef1fa86a3ee44ca0a"
+    url "https://files.pythonhosted.org/packages/52/e1/06c018197d8151383f66ebf6979d951995cf495629fc54149491f5d157d0/pip-21.2.4.tar.gz"
+    sha256 "0eb8a1516c3d138ae8689c0c1a60fde7143310832f9dc77e11d8a4bc62de193b"
   end
 
   resource "wheel" do
-    url "https://files.pythonhosted.org/packages/ed/46/e298a50dde405e1c202e316fa6a3015ff9288423661d7ea5e8f22f589071/wheel-0.36.2.tar.gz"
-    sha256 "e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e"
+    url "https://files.pythonhosted.org/packages/4e/be/8139f127b4db2f79c8b117c80af56a3078cc4824b5b94250c7f81a70e03b/wheel-0.37.0.tar.gz"
+    sha256 "e2ef7239991699e3355d54f8e968a21bb940a1dbf34a4d226741e64462516fad"
   end
 
   def lib_cellar
