@@ -101,9 +101,7 @@ class PythonAT36 < Formula
     ENV["PYTHONPATH"] = nil
 
     # Override the auto-detection in setup.py, which assumes a universal build.
-    if OS.mac?
-      ENV["PYTHON_DECIMAL_WITH_MACHINE"] = "x64"
-    end
+    ENV["PYTHON_DECIMAL_WITH_MACHINE"] = "x64" if OS.mac?
 
     # The --enable-optimization and --with-lto flags diverge from what upstream
     # python does for their macOS binary releases. They have chosen not to apply
@@ -194,9 +192,7 @@ class PythonAT36 < Formula
     ENV.deparallelize do
       # Tell Python not to install into /Applications (default for framework builds)
       system "make", "install", "PYTHONAPPSDIR=#{prefix}"
-      if OS.mac?
-        system "make", "frameworkinstallextras", "PYTHONAPPSDIR=#{pkgshare}"
-      end
+      system "make", "frameworkinstallextras", "PYTHONAPPSDIR=#{pkgshare}" if OS.mac?
     end
 
     # Any .app get a " 3" attached, so it does not conflict with python 2.x.
