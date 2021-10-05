@@ -191,9 +191,7 @@ class PythonAT27 < Formula
     ENV.deparallelize do
       # Tell Python not to install into /Applications (default for framework builds)
       system "make", "install", "PYTHONAPPSDIR=#{prefix}"
-      if OS.mac?
-        system "make", "frameworkinstallextras", "PYTHONAPPSDIR=#{pkgshare}"
-      end
+      system "make", "frameworkinstallextras", "PYTHONAPPSDIR=#{pkgshare}" if OS.mac?
     end
 
     # Any .app get a " 2" attached, so it does not conflict with python 3.x.
