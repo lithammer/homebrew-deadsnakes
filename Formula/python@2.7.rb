@@ -118,14 +118,13 @@ class PythonAT27 < Formula
       --with-lto
     ]
 
-    on_macos do
+    if OS.mac?
       args << "--enable-framework=#{frameworks}"
 
       # Override LLVM_AR to be plain old system ar.
       # https://bugs.python.org/issue43109
       args << "LLVM_AR=/usr/bin/ar"
-    end
-    on_linux do
+    else
       args << "--enable-shared"
       # Required for the _ctypes module
       # see https://github.com/Linuxbrew/homebrew-core/pull/1007#issuecomment-252421573
@@ -192,7 +191,7 @@ class PythonAT27 < Formula
     ENV.deparallelize do
       # Tell Python not to install into /Applications (default for framework builds)
       system "make", "install", "PYTHONAPPSDIR=#{prefix}"
-      on_macos do
+      if OS.mac?
         system "make", "frameworkinstallextras", "PYTHONAPPSDIR=#{pkgshare}"
       end
     end
@@ -200,7 +199,7 @@ class PythonAT27 < Formula
     # Any .app get a " 2" attached, so it does not conflict with python 3.x.
     Dir.glob("#{prefix}/*.app") { |app| mv app, app.sub(/\.app$/, " 2.app") }
 
-    on_macos do
+    if OS.mac?
       # Prevent third-party packages from building against fragile Cellar paths
       inreplace [lib_cellar/"_sysconfigdata.py",
                  lib_cellar/"config/Makefile",
