@@ -11,6 +11,12 @@ class PythonAT311 < Formula
     regex(%r{href=.*?v?(3\.11(?:\.\d+)*)/?["' >]}i)
   end
 
+  bottle do
+    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@3.11-3.11.0a1"
+    sha256 big_sur:  "ac7a4618d41338447c25d07e96006f0ff742119d547c17604c0800d39b9aced8"
+    sha256 catalina: "07b09a302ffcd78aa2c16e70c5cacb82c780471901c2bf6aff96578d89de1dc4"
+  end
+
   # setuptools remembers the build flags python is built with and uses them to
   # build packages later. Xcode-only systems need different flags.
   pour_bottle? only_if: :clt_installed
