@@ -23,6 +23,7 @@ is symlinked to `${HOMEBREW_PREFIX:-/usr/local}/bin`.
 - 3.5 (3.5.10)
 - 3.6 (3.6.15)
 - 3.10 (3.10.0)
+- 3.11 (3.11.0a1)
 
 ## License
 
