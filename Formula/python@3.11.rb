@@ -4,6 +4,7 @@ class PythonAT311 < Formula
   url "https://www.python.org/ftp/python/3.11.0/Python-3.11.0a1.tgz"
   sha256 "d2c83771a671d0755d1cda5d82aaea70ef32d337fe5bf87036bd113fc088edff"
   license "Python-2.0"
+  revision 1
   head "https://github.com/python/cpython.git", branch: "main"
 
   livecheck do
