@@ -1,10 +1,9 @@
 class PythonAT311 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.11.0/Python-3.11.0a1.tgz"
-  sha256 "d2c83771a671d0755d1cda5d82aaea70ef32d337fe5bf87036bd113fc088edff"
+  url "https://www.python.org/ftp/python/3.11.0/Python-3.11.0a2.tgz"
+  sha256 "673911e7d5ec0e2ba0449e1d82318014b11d239f3fb2ff4a189c5d131c71bf15"
   license "Python-2.0"
-  revision 1
   head "https://github.com/python/cpython.git", branch: "main"
 
   livecheck do
@@ -45,13 +44,13 @@ class PythonAT311 < Formula
               "bin/easy_install-3.7", "bin/easy_install-3.8", "bin/easy_install-3.9", "bin/easy_install-3.10"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/1e/5c/3d7b3d91a86d71faf5038c5d259ed36b5d05b7804648e2c43251d574a6e6/setuptools-58.2.0.tar.gz"
-    sha256 "2c55bdb85d5bb460bd2e3b12052b677879cffcf46c0c688f2e5bf51d36001145"
+    url "https://files.pythonhosted.org/packages/1e/00/05f51ceab8d3b9be4295000d8be4c830c53e5477755888994e9825606cd9/setuptools-58.5.3.tar.gz"
+    sha256 "dae6b934a965c8a59d6d230d3867ec408bb95e73bd538ff77e71fedf1eaca729"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/52/e1/06c018197d8151383f66ebf6979d951995cf495629fc54149491f5d157d0/pip-21.2.4.tar.gz"
-    sha256 "0eb8a1516c3d138ae8689c0c1a60fde7143310832f9dc77e11d8a4bc62de193b"
+    url "https://files.pythonhosted.org/packages/da/f6/c83229dcc3635cdeb51874184241a9508ada15d8baa337a41093fab58011/pip-21.3.1.tar.gz"
+    sha256 "fd11ba3d0fdb4c07fbc5ecbba0b1b719809420f25038f8ee3cd913d3faa3033a"
   end
 
   resource "wheel" do
