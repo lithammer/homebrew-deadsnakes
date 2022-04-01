@@ -423,9 +423,7 @@ class PythonAT27 < Formula
     system "#{bin}/python#{version.major_minor}", "-c", "import hashlib"
     system "#{bin}/python#{version.major_minor}", "-c", "import ssl"
     system "#{bin}/python#{version.major_minor}", "-c", "import zlib"
-    on_macos do
-      system "#{bin}/python#{version.major_minor}", "-c", "import Tkinter; root = Tkinter.Tk()"
-    end
+    system "#{bin}/python#{version.major_minor}", "-c", "import Tkinter; root = Tkinter.Tk()" if OS.mac?
 
     # Verify that the selected DBM interface works
     (testpath/"dbm_test.py").write <<~EOS
