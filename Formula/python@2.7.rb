@@ -79,6 +79,18 @@ class PythonAT27 < Formula
     sha256 "e11eefd162658ea59a60a0f6c7d493a7190ea4b9a85e335b33489d9f17e0245e"
   end
 
+  # Detect arm64 (Apple silicon) in configure script
+  patch do
+    url "https://github.com/pyenv/pyenv/raw/master/plugins/python-build/share/python-build/patches/2.7.18/Python-2.7.18/0001-Detect-arm64-in-configure.patch"
+    sha256 "55ecbb6c1b8e2e851dcfed3b26a9d8269739af55ade8d164563875cab6d44a6b"
+  end
+
+  # Support Apple silicon in Mac/Tools/pythonw.c
+  patch do
+    url "https://github.com/pyenv/pyenv/raw/master/plugins/python-build/share/python-build/patches/2.7.18/Python-2.7.18/0003-Support-arm64-in-Mac-Tools-pythonw.patch"
+    sha256 "a2ff3ba40f6eebb85dc58b369e6ee6274a5af8b1c2bb4b54e33bf8d4c980d0f5"
+  end
+
   def lib_cellar
     on_macos do
       return prefix/"Frameworks/Python.framework/Versions/#{version.major_minor}/lib/python#{version.major_minor}"
