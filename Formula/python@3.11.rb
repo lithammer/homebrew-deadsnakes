@@ -26,12 +26,12 @@ class PythonAT311 < Formula
   depends_on "gdbm"
   depends_on "mpdecimal"
   depends_on "openssl@1.1"
-  depends_on "readline"
   depends_on "sqlite"
   depends_on "xz"
 
   uses_from_macos "bzip2"
   uses_from_macos "expat"
+  uses_from_macos "libedit"
   uses_from_macos "libffi", since: :catalina
   uses_from_macos "libxcrypt"
   uses_from_macos "ncurses"
@@ -131,6 +131,7 @@ class PythonAT311 < Formula
       --with-system-expat
       --with-system-ffi
       --with-system-libmpdec
+      --with-readline=editline
     ]
 
     if OS.mac?
@@ -171,9 +172,11 @@ class PythonAT311 < Formula
 
     # We want our readline! This is just to outsmart the detection code,
     # superenv makes cc always find includes/libs!
-    inreplace "setup.py",
-      /do_readline = self.compiler.find_library_file\(self.lib_dirs,\s*readline_lib\)/,
-      "do_readline = '#{Formula["readline"].opt_lib}/#{shared_library("libhistory")}'"
+    if OS.linux?
+      inreplace "setup.py",
+        /do_readline = self.compiler.find_library_file\(self.lib_dirs,\s*readline_lib\)/,
+        "do_readline = '#{Formula["libedit"].opt_lib/shared_library("libedit")}'"
+    end
 
     if OS.linux?
       # Python's configure adds the system ncurses include entry to CPPFLAGS
@@ -209,6 +212,10 @@ class PythonAT311 < Formula
     system "make"
 
     ENV.deparallelize do
+      # The `altinstall` target prevents the installation of files with only Python's major
+      # version in its name. This allows us to link multiple versioned Python formulae.
+      #   https://github.com/python/cpython#installing-multiple-versions
+      #
       # Tell Python not to install into /Applications (default for framework builds)
       system "make", "altinstall", "PYTHONAPPSDIR=#{prefix}"
       system "make", "frameworkinstallextras", "PYTHONAPPSDIR=#{pkgshare}" if OS.mac?
