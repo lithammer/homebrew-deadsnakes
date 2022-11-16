@@ -15,10 +15,7 @@ class PythonAT312 < Formula
   # build packages later. Xcode-only systems need different flags.
   pour_bottle? only_if: :clt_installed
 
-  keg_only :versioned_formula
-
   depends_on "pkg-config" => :build
-  depends_on "gdbm"
   depends_on "mpdecimal"
   depends_on "openssl@1.1"
   depends_on "sqlite"
@@ -474,7 +471,6 @@ class PythonAT312 < Formula
     # Check if some other modules import. Then the linked libs are working.
     system python3, "-c", "import _ctypes"
     system python3, "-c", "import _decimal"
-    system python3, "-c", "import _gdbm"
     system python3, "-c", "import pyexpat"
     system python3, "-c", "import zlib"
 
@@ -483,10 +479,10 @@ class PythonAT312 < Formula
                  shell_output("#{python3} -Sc 'import tkinter' 2>&1", 1)
 
     # gdbm is provided in a separate formula
-    # assert_match "ModuleNotFoundError: No module named '_gdbm'",
-    #              shell_output("#{python3} -Sc 'import _gdbm' 2>&1", 1)
-    # assert_match "ModuleNotFoundError: No module named '_gdbm'",
-    #              shell_output("#{python3} -Sc 'import dbm.gnu' 2>&1", 1)
+    assert_match "ModuleNotFoundError: No module named '_gdbm'",
+                 shell_output("#{python3} -Sc 'import _gdbm' 2>&1", 1)
+    assert_match "ModuleNotFoundError: No module named '_gdbm'",
+                 shell_output("#{python3} -Sc 'import dbm.gnu' 2>&1", 1)
 
     # Verify that the selected DBM interface works
     (testpath/"dbm_test.py").write <<~EOS
