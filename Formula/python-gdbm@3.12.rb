@@ -10,6 +10,11 @@ class PythonGdbmAT312 < Formula
     formula "python@3.12"
   end
 
+  bottle do
+    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python-gdbm@3.12-3.12.0a2"
+    sha256 cellar: :any, monterey: "fa811a3faa0693a9386759840d1964f135a562fdef7e3d920e4f54780ac3362e"
+  end
+
   depends_on "gdbm"
   depends_on "python@3.12"
 
