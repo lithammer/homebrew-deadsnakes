@@ -9,9 +9,9 @@ It also contains alpha/beta release of the next major Python version.
 
 To install Python 3.5:
 
-```console
-$ brew tap lithammer/deadsnakes
-$ brew install python@3.5
+```sh
+brew tap lithammer/deadsnakes
+brew install python@3.5
 ```
 
 To avoid conflicts, only the versioned Python binary in the format `pythonX.Y`
@@ -22,7 +22,6 @@ is symlinked to `${HOMEBREW_PREFIX:-/usr/local}/bin`.
 - 2.7 (2.7.18)
 - 3.5 (3.5.10)
 - 3.6 (3.6.15)
-- 3.11 (3.11.0a2)
 
 ## License
 
