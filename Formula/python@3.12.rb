@@ -1,8 +1,8 @@
 class PythonAT312 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.12.0/Python-3.12.0a2.tgz"
-  sha256 "81fa3468cada25f5ac8868230a847999495464f8ab67df1df3e8e8e280df0b2b"
+  url "https://www.python.org/ftp/python/3.12.0/Python-3.12.0a3.tgz"
+  sha256 "fd414e6b6520171f5cefc5cba1067265187a322417f7bdec8d024db7fc8fbe96"
   license "Python-2.0"
   head "https://github.com/python/cpython.git", branch: "main"
 
@@ -48,8 +48,8 @@ class PythonAT312 < Formula
 
   # Always update to latest release
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/26/f4/ca5cb6df512f453ad50f78900bf7ec6a5491ee44bb49d0f6f76802dbdd43/setuptools-65.5.1.tar.gz"
-    sha256 "e197a19aa8ec9722928f2206f8de752def0e4c9fc6953527360d1c36d94ddb2f"
+    url "https://files.pythonhosted.org/packages/b6/21/cb9a8d0b2c8597c83fce8e9c02884bce3d4951e41e807fc35791c6b23d9a/setuptools-65.6.3.tar.gz"
+    sha256 "a7620757bf984b58deaf32fc8a4577a9bbc0850cf92c20e1ce41c38c19e5fb75"
   end
 
   resource "pip" do
