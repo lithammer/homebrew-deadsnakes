@@ -12,8 +12,8 @@ class PythonAT312 < Formula
   end
 
   bottle do
-    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@3.12-3.12.0a2"
-    sha256 monterey: "6bbf4591ca551538645bd02fe47895e875728bca7b66cd03de2eacfa7994004d"
+    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python@3.12-3.12.0a3"
+    sha256 monterey: "3210cf0b888da438cb48c57941c1e708d1bbff2c66fec58ba643e464961315ae"
   end
 
   # setuptools remembers the build flags python is built with and uses them to
