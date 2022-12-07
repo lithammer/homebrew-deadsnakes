@@ -1,8 +1,8 @@
 class PythonGdbmAT312 < Formula
   desc "Python interface to gdbm"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.12.0/Python-3.12.0a2.tgz"
-  sha256 "81fa3468cada25f5ac8868230a847999495464f8ab67df1df3e8e8e280df0b2b"
+  url "https://www.python.org/ftp/python/3.12.0/Python-3.12.0a3.tgz"
+  sha256 "fd414e6b6520171f5cefc5cba1067265187a322417f7bdec8d024db7fc8fbe96"
   license "Python-2.0"
   head "https://github.com/python/cpython.git", branch: "main"
 
