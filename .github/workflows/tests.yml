@@ -8,8 +8,7 @@ jobs:
   test-bot:
     strategy:
       matrix:
-        os:
-          - macos-12
+        os: [ubuntu-22.04, macos-12]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Homebrew
