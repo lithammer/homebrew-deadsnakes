@@ -11,8 +11,8 @@ class PythonGdbmAT312 < Formula
   end
 
   bottle do
-    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python-gdbm@3.12-3.12.0a4"
-    sha256 cellar: :any, monterey: "8a84658dfa78843738257a85b2378d0fd0773137666cad94a37cd8746fc58f1b"
+    root_url "https://github.com/lithammer/homebrew-deadsnakes/releases/download/python-gdbm@3.12-3.12.0a6"
+    sha256 cellar: :any, monterey: "6fce7506d711751b84c7ca29bcf7c3ebd6003ffc72ce523a85fa5d4fd1649341"
   end
 
   depends_on "gdbm"
