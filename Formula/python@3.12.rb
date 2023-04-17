@@ -1,8 +1,8 @@
 class PythonAT312 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  url "https://www.python.org/ftp/python/3.12.0/Python-3.12.0a6.tgz"
-  sha256 "9301a243da5a1982133ddf804b76ee1fe11aa98e2d3dfb09f095485eaa50edfd"
+  url "https://www.python.org/ftp/python/3.12.0/Python-3.12.0a7.tgz"
+  sha256 "86d288766153193706e545cc98f73ea8ef1a9cb057608cfdecbd89190b796cf6"
   license "Python-2.0"
   head "https://github.com/python/cpython.git", branch: "main"
 
@@ -47,19 +47,24 @@ class PythonAT312 < Formula
               "bin/easy_install-3.11"
 
   # Always update to latest release
+  resource "flit-core" do
+    url "https://files.pythonhosted.org/packages/10/e5/be08751d07b30889af130cec20955c987a74380a10058e6e8856e4010afc/flit_core-3.8.0.tar.gz"
+    sha256 "b305b30c99526df5e63d6022dd2310a0a941a187bd3884f4c8ef0418df6c39f3"
+  end
+
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/a4/3a/d60ed296ff8bbc6157ce818765c4c02df8b02fe70c310b7d29127962c5ae/setuptools-67.5.1.tar.gz"
-    sha256 "15136a251127da2d2e77ac7a1bc231eb504654f7e3346d93613a13f2e2787535"
+    url "https://files.pythonhosted.org/packages/cb/46/22ec35f286a77e6b94adf81b4f0d59f402ed981d4251df0ba7b992299146/setuptools-67.6.1.tar.gz"
+    sha256 "257de92a9d50a60b8e22abfcbb771571fde0dbf3ec234463212027a4eeecbe9a"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/a3/50/c4d2727b99052780aad92c7297465af5fe6eec2dbae490aa9763273ffdc1/pip-22.3.1.tar.gz"
-    sha256 "65fd48317359f3af8e593943e6ae1506b66325085ea64b706a998c6e83eeaf38"
+    url "https://files.pythonhosted.org/packages/da/bf/1bdbe62f5fbde085351693e3a8e387a59f8220932b911b1719fe65efa2d7/pip-23.1.tar.gz"
+    sha256 "408539897ee535dbfb83a153f7bc4d620f990d8bd44a52a986efc0b4d330d34a"
   end
 
   resource "wheel" do
-    url "https://files.pythonhosted.org/packages/a2/b8/6a06ff0f13a00fc3c3e7d222a995526cbca26c1ad107691b6b1badbbabf1/wheel-0.38.4.tar.gz"
-    sha256 "965f5259b566725405b05e7cf774052044b1ed30119b5d586b2703aafe8719ac"
+    url "https://files.pythonhosted.org/packages/fc/ef/0335f7217dd1e8096a9e8383e1d472aa14717878ffe07c4772e68b6e8735/wheel-0.40.0.tar.gz"
+    sha256 "cd1196f3faee2b31968d626e1731c94f99cbdb67cf5a46e4f5656cbee7738873"
   end
 
   # Modify default sysconfig to match the brew install layout.
@@ -120,7 +125,6 @@ class PythonAT312 < Formula
       --with-openssl=#{Formula["openssl@1.1"].opt_prefix}
       --enable-optimizations
       --with-system-expat
-      --with-system-ffi
       --with-system-libmpdec
       --with-readline=editline
     ]
@@ -160,14 +164,6 @@ class PythonAT312 < Formula
 
     # Resolve HOMEBREW_PREFIX in our sysconfig modification.
     inreplace "Lib/sysconfig.py", "@@HOMEBREW_PREFIX@@", HOMEBREW_PREFIX
-
-    # We want our readline! This is just to outsmart the detection code,
-    # superenv makes cc always find includes/libs!
-    if OS.linux?
-      inreplace "setup.py",
-        /do_readline = self.compiler.find_library_file\(self.lib_dirs,\s*readline_lib\)/,
-        "do_readline = '#{Formula["libedit"].opt_lib/shared_library("libedit")}'"
-    end
 
     if OS.linux?
       # Python's configure adds the system ncurses include entry to CPPFLAGS
@@ -273,6 +269,9 @@ class PythonAT312 < Formula
     ]
     whl_build = buildpath/"whl_build"
     system python3, "-m", "venv", whl_build
+    resource("flit-core").stage do
+      system whl_build/"bin/pip3", "install", *common_pip_args, "."
+    end
     resource("wheel").stage do
       system whl_build/"bin/pip3", "install", *common_pip_args, "."
       system whl_build/"bin/pip3", "wheel", *common_pip_args,
@@ -396,9 +395,10 @@ class PythonAT312 < Formula
           # because the PYTHONPATH is evaluated after the sitecustomize.py. Many modules (e.g. PyQt4) are
           # built only for a specific version of Python and will fail with cryptic error messages.
           # In the end this means: Don't set the PYTHONPATH permanently if you use different Python versions.
-          exit('Your PYTHONPATH points to a site-packages dir for Python #{version.major_minor} but you are running Python ' +
-                str(sys.version_info[0]) + '.' + str(sys.version_info[1]) + '!\\n     PYTHONPATH is currently: "' + str(os.environ['PYTHONPATH']) + '"\\n' +
-                '     You should `unset PYTHONPATH` to fix this.')
+          exit(f'Your PYTHONPATH points to a site-packages dir for Python #{version.major_minor} '
+               f'but you are running Python {sys.version_info[0]}.{sys.version_info[1]}!\\n'
+               f'     PYTHONPATH is currently: "{os.environ["PYTHONPATH"]}"\\n'
+               f'     You should `unset PYTHONPATH` to fix this.')
       # Only do this for a brewed python:
       if os.path.realpath(sys.executable).startswith('#{rack}'):
           # Shuffle /Library site-packages to the end of sys.path
@@ -410,7 +410,7 @@ class PythonAT312 < Formula
           # the Cellar site-packages is a symlink to the HOMEBREW_PREFIX
           # site_packages; prefer the shorter paths
           long_prefix = re.compile(r'#{rack}/[0-9\\._abrc]+/Frameworks/Python\\.framework/Versions/#{version.major_minor}/lib/python#{version.major_minor}/site-packages')
-          sys.path = [long_prefix.sub('#{HOMEBREW_PREFIX/"lib/python#{version.major_minor}/site-packages"}', p) for p in sys.path]
+          sys.path = [long_prefix.sub('#{site_packages}', p) for p in sys.path]
           # Set the sys.executable to use the opt_prefix. Only do this if PYTHONEXECUTABLE is not
           # explicitly set and we are not in a virtualenv:
           if 'PYTHONEXECUTABLE' not in os.environ and sys.prefix == sys.base_prefix:
