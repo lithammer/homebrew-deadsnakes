@@ -1,6 +1,6 @@
 :warning: DEPRECATION NOTICE: Use something like
 [rtx](https://github.com/jdx/rtx), [asdf](https://asdf-vm.com) or
-[Rye](https://rye-up.com) to manage your installed Python version(s) instead.
+[rye](https://rye-up.com) to manage your installed Python version(s) instead.
 
 # homebrew-deadsnakes
 
