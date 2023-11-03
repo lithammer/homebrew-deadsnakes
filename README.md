@@ -1,13 +1,8 @@
+:warning: DEPRECATION NOTICE: Use something like
+[rtx](https://github.com/jdx/rtx), [asdf](https://asdf-vm.com) or
+[Rye](https://rye-up.com) to manage your installed Python version(s) instead.
+
 # homebrew-deadsnakes
-
-:warning: DEPRECATION NOTICE: Use something like rtx[^1], asdf[^2] or Rye[^3]
-to manage your installed Python version(s) instead.
-
-[^1]: https://github.com/jdx/rtx
-[^2]: https://asdf-vm.com
-[^3]: https://rye-up.com
-
----
 
 This Homebrew tap provides formulas for Python versions that have been
 deprecated and removed from the main Homebrew repository.
